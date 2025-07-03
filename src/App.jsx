@@ -1,6 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+const postzz = () => {
+    fetch('https://dummyjson.com/todos/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application-json' },
+        body: JSON.stringify({
+            todo: 'asdfasdfasdf',
+            completed: false,
+            userId: 134,
+        }),
+    })
+}
 
 function App() {
+    useEffect(() => {
+        fetch('https://dummyjson.com/todos')
+            .then((res) => res.json())
+            .then((res) => setTodos(res.todos))
+    }, [])
+
     const [todos, setTodos] = useState([])
 
     const [nextId, setNextId] = useState(0)
@@ -22,7 +40,7 @@ function App() {
         setTodos([
             {
                 id: nextId,
-                checked: false,
+                completed: false,
                 todo: todo,
             },
             ...todos,
@@ -36,7 +54,7 @@ function App() {
     }
 
     const updateTodo = (selectedId) => {
-        const checkTodo = todos.map((todo) => (todo.id == selectedId ? { ...todo, checked: !todo.checked } : todo))
+        const checkTodo = todos.map((todo) => (todo.id == selectedId ? { ...todo, completed: !todo.completed } : todo))
         setTodos(checkTodo)
     }
 
@@ -49,8 +67,8 @@ function App() {
             <ul>
                 {todos.map((todo) => (
                     <li key={todo.id}>
-                        <input type="checkbox" checked={todo.checked} onChange={() => updateTodo(todo.id)} />
-                        {todo.id} / {todo.todo}
+                        <input type="checkbox" checked={todo.completed} onChange={() => updateTodo(todo.id)} />
+                        {todo.id} / {JSON.stringify(todo.completed)} / {todo.todo}
                         <button className="border rounded p-2 m-2" onClick={() => removeTodo(todo.id)}>
                             삭제
                         </button>
