@@ -1,5 +1,27 @@
+import { useState } from 'react'
+
 function App() {
-    return <>Hello World</>
+    const [todos, setTodos] = useState(['할일1', '할일2', '할일3'])
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+        setTodos([event.target.todo.value, ...todos])
+    }
+
+    return (
+        <>
+            <form onSubmit={handleSubmit}>
+                <input type="text" name="todo" />
+                <button type="submit">등록</button>
+            </form>
+            <ul>
+                {todos.map((todo, index) => (
+                    <li key={index}>{todo}</li>
+                ))}
+            </ul>
+        </>
+    )
 }
 
 export default App
