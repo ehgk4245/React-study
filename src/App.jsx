@@ -53,8 +53,19 @@ function App() {
     }
 
     const updateTodo = (selectedId) => {
-        const checkTodo = todos.map((todo) => (todo.id == selectedId ? { ...todo, completed: !todo.completed } : todo))
-        setTodos(checkTodo)
+        const completed = todos.filter((todo) => selectedId == todo.id).completed
+        /* updating completed status of todo with id 1 */
+        fetch(`https://dummyjson.com/todos/${selectedId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                completed: !completed,
+            }),
+        })
+            .then((res) => res.json())
+            .then(console.log)
+        // const checkTodo = todos.map((todo) => (todo.id == selectedId ? { ...todo, completed: !todo.completed } : todo))
+        // setTodos(checkTodo)
     }
 
     return (
