@@ -1,17 +1,5 @@
 import { useEffect, useState } from 'react'
 
-const postzz = () => {
-    fetch('https://dummyjson.com/todos/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application-json' },
-        body: JSON.stringify({
-            todo: 'asdfasdfasdf',
-            completed: false,
-            userId: 134,
-        }),
-    })
-}
-
 function App() {
     useEffect(() => {
         fetch('https://dummyjson.com/todos')
@@ -37,15 +25,26 @@ function App() {
     }
 
     const addTodo = (todo) => {
-        setTodos([
-            {
-                id: nextId,
-                completed: false,
+        fetch('https://dummyjson.com/todos/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
                 todo: todo,
-            },
-            ...todos,
-        ])
-        setNextId(nextId + 1)
+                completed: false,
+                userId: 5,
+            }),
+        })
+            .then((res) => res.json())
+            .then(console.log)
+        // setTodos([
+        //     {
+        //         id: nextId,
+        //         completed: false,
+        //         todo: todo,
+        //     },
+        //     ...todos,
+        // ])
+        // setNextId(nextId + 1)
     }
 
     const removeTodo = (selectedId) => {
