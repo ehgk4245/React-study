@@ -48,12 +48,17 @@ function App() {
     }
 
     const removeTodo = (selectedId) => {
-        const filterTodos = todos.filter((todo) => todo.id != selectedId)
-        setTodos(filterTodos)
+        fetch(`https://dummyjson.com/todos/${selectedId}`, {
+            method: 'DELETE',
+        })
+            .then((res) => res.json())
+            .then(console.log)
+        // const filterTodos = todos.filter((todo) => todo.id != selectedId)
+        // setTodos(filterTodos)
     }
 
     const updateTodo = (selectedId) => {
-        const completed = todos.filter((todo) => selectedId == todo.id).completed
+        const completed = todos.find((todo) => selectedId == todo.id).completed
         /* updating completed status of todo with id 1 */
         fetch(`https://dummyjson.com/todos/${selectedId}`, {
             method: 'PATCH',
