@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 
-function useTodos() {
+export function useTodos() {
     const [todos, setTodos] = useState([])
     const lastIdRef = useRef(0)
 
@@ -29,5 +29,3 @@ function useTodos() {
 
     return { todos, addTodo, removeTodo, updateTodo }
 }
-
-export default useTodos

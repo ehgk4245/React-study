@@ -1,6 +1,6 @@
 import TodoWriteForm from './components/TodoWriteForm'
-import ItemList from './components/ItemList'
-import useTodos from './hooks/useTodos'
+import ItemList from './components/TodoList'
+import { useTodos } from './hooks/useTodos'
 
 function App() {
     const todosState = useTodos()
