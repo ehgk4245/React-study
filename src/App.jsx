@@ -1,76 +1,42 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 function App() {
-    useEffect(() => {
-        fetch('https://dummyjson.com/todos')
-            .then((res) => res.json())
-            .then((res) => setTodos(res.todos))
-    }, [])
-
     const [todos, setTodos] = useState([])
-
-    const [nextId, setNextId] = useState(0)
+    const lastIdRef = useRef(0)
 
     const handleSubmit = (event) => {
         event.preventDefault()
-
+        const id = lastIdRef.current + 1
         if (event.target.todo.value.length == 0) {
             alert('값이 비었다.')
             return
         }
 
-        addTodo(event.target.todo.value)
+        addTodo(event.target.todo.value, id)
 
         event.target.todo.value = ''
     }
 
-    const addTodo = (todo) => {
-        fetch('https://dummyjson.com/todos/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                todo: todo,
+    const addTodo = (todo, id) => {
+        setTodos([
+            {
+                id: id,
                 completed: false,
-                userId: 5,
-            }),
-        })
-            .then((res) => res.json())
-            .then(console.log)
-        // setTodos([
-        //     {
-        //         id: nextId,
-        //         completed: false,
-        //         todo: todo,
-        //     },
-        //     ...todos,
-        // ])
-        // setNextId(nextId + 1)
+                todo: todo,
+            },
+            ...todos,
+        ])
+        lastIdRef.current = id
     }
 
     const removeTodo = (selectedId) => {
-        fetch(`https://dummyjson.com/todos/${selectedId}`, {
-            method: 'DELETE',
-        })
-            .then((res) => res.json())
-            .then(console.log)
-        // const filterTodos = todos.filter((todo) => todo.id != selectedId)
-        // setTodos(filterTodos)
+        const filterTodos = todos.filter((todo) => todo.id != selectedId)
+        setTodos(filterTodos)
     }
 
     const updateTodo = (selectedId) => {
-        const completed = todos.find((todo) => selectedId == todo.id).completed
-        /* updating completed status of todo with id 1 */
-        fetch(`https://dummyjson.com/todos/${selectedId}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                completed: !completed,
-            }),
-        })
-            .then((res) => res.json())
-            .then(console.log)
-        // const checkTodo = todos.map((todo) => (todo.id == selectedId ? { ...todo, completed: !todo.completed } : todo))
-        // setTodos(checkTodo)
+        const checkTodo = todos.map((todo) => (todo.id == selectedId ? { ...todo, completed: !todo.completed } : todo))
+        setTodos(checkTodo)
     }
 
     return (
