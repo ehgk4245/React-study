@@ -1,33 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
 import TodoWriteForm from './components/TodoWriteForm'
 import ItemList from './components/ItemList'
+import useTodos from './hooks/useTodos'
 
 function App() {
-    const [todos, setTodos] = useState([])
-    const lastIdRef = useRef(0)
-
-    const addTodo = (todo) => {
-        const id = lastIdRef.current + 1
-        setTodos([
-            {
-                id: id,
-                completed: false,
-                todo: todo,
-            },
-            ...todos,
-        ])
-        lastIdRef.current = id
-    }
-
-    const removeTodo = (selectedId) => {
-        const filterTodos = todos.filter((todo) => todo.id != selectedId)
-        setTodos(filterTodos)
-    }
-
-    const updateTodo = (selectedId) => {
-        const checkTodo = todos.map((todo) => (todo.id == selectedId ? { ...todo, completed: !todo.completed } : todo))
-        setTodos(checkTodo)
-    }
+    const { todos, addTodo, removeTodo, updateTodo } = useTodos()
 
     return (
         <>
