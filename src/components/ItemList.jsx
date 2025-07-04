@@ -1,4 +1,6 @@
-function ItemList({ todos, removeTodo, updateTodo }) {
+function ItemList({ todosState }) {
+    const { todos, removeTodo, updateTodo } = todosState
+
     return (
         <>
             <ul>

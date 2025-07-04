@@ -3,12 +3,12 @@ import ItemList from './components/ItemList'
 import useTodos from './hooks/useTodos'
 
 function App() {
-    const { todos, addTodo, removeTodo, updateTodo } = useTodos()
+    const todosState = useTodos()
 
     return (
         <>
-            <TodoWriteForm addTodo={addTodo}></TodoWriteForm>
-            <ItemList todos={todos} removeTodo={removeTodo} updateTodo={updateTodo}></ItemList>
+            <TodoWriteForm todosState={todosState}></TodoWriteForm>
+            <ItemList todosState={todosState}></ItemList>
         </>
     )
 }

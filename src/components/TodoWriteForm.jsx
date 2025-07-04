@@ -1,4 +1,6 @@
-function TodoWriteForm({ addTodo }) {
+function TodoWriteForm({ todosState }) {
+    const { addTodo } = todosState
+
     const handleSubmit = (e) => {
         e.preventDefault()
         addTodo(e.target.todo.value)
